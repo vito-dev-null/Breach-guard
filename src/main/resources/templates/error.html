@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Errore - Breach Hunter</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/game.css?v=12">
+  </head>
+  <body class="bg-hero text-white">
+    <div class="container py-5">
+      <div class="row justify-content-center align-items-center min-vh-100">
+        <div class="col-lg-8">
+          <div class="card border-0 shadow-xxl overflow-hidden rounded-5 glass-panel p-5">
+            <div class="text-center">
+              <h1 class="h2 fw-bold text-accent mb-3">Errore</h1>
+              <p class="text-slate-400 mb-4">La richiesta non può essere completata.</p>
+            </div>
+            <div class="bg-slate-950 border border-slate-800 rounded-4 p-4 text-slate-200">
+              <p><strong>Codice:</strong> <span th:text="${status}">400</span></p>
+              <p><strong>Messaggio:</strong> <span th:text="${message}">Bad Request</span></p>
+              <p><strong>Path:</strong> <span th:text="${path}">/error</span></p>
+            </div>
+            <div class="mt-4 text-center">
+              <a href="/" class="btn btn-accent btn-gradient btn-lg">Torna alla home</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

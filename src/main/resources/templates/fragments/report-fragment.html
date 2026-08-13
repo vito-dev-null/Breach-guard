@@ -1,0 +1,49 @@
+<!doctype html>
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="reportCard(result)">
+  <div class="result-card p-4 mb-4">
+    <div class="result-shell">
+      <div class="result-grid">
+        <div class="result-side">
+          <div class="result-label">Email</div>
+          <div class="result-email-row">
+            <img src="/img/images1.jpeg" alt="avatar" class="result-avatar">
+            <span class="result-email" th:text="${result.email}"></span>
+          </div>
+
+          <div class="result-label">Stato</div>
+          <span class="badge rounded-pill result-status" th:classappend="${result.breached} ? ' bg-danger text-white' : ' bg-success text-white'" th:text="${result.breached} ? 'COMPROMESSA' : 'SICURA'"></span>
+
+          <div th:if="${result.breached}" class="result-label">Violazione rilevata</div>
+          <div th:unless="${result.breached}" class="result-label">Violazioni</div>
+          <div class="result-summary" th:text="${result.breached} ? ${result.breaches[0]} : 'Nessuna violazione rilevata per questo indirizzo.'"></div>
+        </div>
+
+        <div class="result-side">
+          <div th:if="${result.breached}" class="result-box">
+            <h4 class="text-danger">⚠️ Account Violato: Cosa Fare Subito</h4>
+            <p>I tuoi dati sono comparsi in un archivio di violazioni. Agisci tempestivamente:</p>
+            <ul class="list-unstyled text-slate-300 mb-0">
+              <li>• <strong class="text-danger-bright">Cambia password:</strong> aggiorna subito la password dell'email e dei servizi importanti.</li>
+              <li>• <strong class="text-danger-bright">Attiva la 2FA:</strong> abilita l'autenticazione a due fattori.</li>
+              <li>• <strong class="text-danger-bright">Controlla le sessioni:</strong> disconnetti dispositivi sconosciuti o sospetti.</li>
+              <li>• <strong class="text-danger-bright">Verifica il PC:</strong> esegui una scansione antivirus per escludere infostealer.</li>
+            </ul>
+            <p class="mt-3 mb-0">Se non sei sicuro, contatta il supporto e cambia le credenziali da un dispositivo sicuro.</p>
+          </div>
+
+          <div th:unless="${result.breached}" class="result-box">
+            <h4 class="text-success">🛡️ Account Sicuro: Nessuna Violazione</h4>
+            <p>L'indirizzo email non risulta compromesso nei database analizzati.</p>
+            <ul class="list-unstyled text-slate-300 mb-0">
+              <li>• <strong class="text-success">Nessun leak:</strong> Nessuna traccia dell'email in archivi di violazioni o log di infostealer noti.</li>
+              <li>• <strong class="text-success">Prevenzione attiva:</strong> Ricorda di utilizzare password uniche per ogni servizio online.</li>
+              <li>• <strong class="text-success">Protezione 2FA:</strong> Abilita sempre l'autenticazione a due fattori sui tuoi account principali.</li>
+              <li>• <strong class="text-success">Monitoraggio:</strong> Esegui periodicamente una nuova scansione per tenere la situazione sotto controllo.</li>
+            </ul>
+            <p class="mt-3 mb-0">Continua a mantenere buone pratiche di sicurezza per proteggere i tuoi account.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
