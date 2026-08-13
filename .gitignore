@@ -5,3 +5,36 @@ target/
 .mvn/
 /.settings/
 out/
+
+# Environment variables - NEVER commit these
+.env
+.env.local
+.env.*.local
+.env.prod
+
+# IDE
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Build artifacts
+*.log
+*.jar
+!.mvn/wrapper/maven-wrapper.jar
+*.md.bak
+
+# Database files
+*.h2.db
+data/
+logs/
+
+# OS
+Thumbs.db
+.AppleDouble
+.LSOverride
+
+# NPM (if used)
+node_modules/
+package-lock.json
+

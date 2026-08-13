@@ -118,6 +118,8 @@ breach-guard/
 
 ## ⚙️ Configuration
 
+### Development Configuration
+
 Edit `src/main/resources/application.properties` to customize:
 
 ```properties
@@ -131,6 +133,50 @@ spring.datasource.url=jdbc:h2:mem:testdb
 # Logging levels
 logging.level.root=INFO
 ```
+
+### Environment Variables Setup
+
+Copy the `.env.example` file to `.env` and configure:
+
+```bash
+cp .env.example .env
+# Edit .env with your settings
+```
+
+**Important**: Never commit `.env` file to Git. It's already in `.gitignore`.
+
+### Production Deployment
+
+For production, use the `prod` profile with environment variables:
+
+```bash
+# Set environment variables
+export SPRING_PROFILES_ACTIVE=prod
+export SECURITY_USER_NAME=admin
+export SECURITY_USER_PASSWORD=your_secure_password_here
+export SECURITY_USER_ROLE=ADMIN
+export SPRING_DATASOURCE_PASSWORD=your_db_password
+
+# Run with production config
+mvn spring-boot:run
+```
+
+Or with Docker:
+
+```bash
+docker run -e SPRING_PROFILES_ACTIVE=prod \
+  -e SECURITY_USER_PASSWORD=your_secure_password \
+  breach-guard:latest
+```
+
+**Production Security Notes:**
+- Use strong passwords (at least 12 characters, mixed case, numbers, symbols)
+- Disable H2 console (`spring.h2.console.enabled=false` in prod profile)
+- Use HTTPS/TLS in production
+- Rotate credentials regularly
+- Use external database instead of H2 in production
+- Enable proper logging and monitoring
+
 
 ## 🧪 Testing
 
@@ -183,12 +229,54 @@ curl -X GET "http://localhost:8080/api/monitoring/status" \
   -H "Content-Type: application/json"
 ```
 
-## 🔐 Security Notes
+## 🔐 Security
 
-- The application uses Spring Security for protecting resources
-- H2 console is enabled for development (disable in production)
-- Sensitive configuration should be externalized in production environments
-- Run with HTTPS in production
+### Development vs Production
+
+This application includes both development and production configurations:
+
+- **Development**: Uses in-memory database (H2), simplified credentials
+- **Production**: Uses persistent database, BCrypt password hashing, environment variable configuration
+
+### Password Security
+
+- Passwords are hashed using **BCrypt** (production-grade)
+- Never use default credentials in production
+- Set strong passwords via environment variables: `SECURITY_USER_PASSWORD`
+- All credentials should be at least 12 characters with mixed case, numbers, and symbols
+
+### Application Security Features
+
+- Spring Security integration for protected resources
+- BCryptPasswordEncoder for password hashing
+- CSRF protection can be enabled per environment
+- API endpoint documentation with Swagger/OpenAPI
+- H2 console disabled in production profile
+
+### Security Best Practices
+
+1. **Never commit secrets** to Git (`.env` is in `.gitignore`)
+2. **Use environment variables** for sensitive configuration in production
+3. **Keep dependencies updated** - run `mvn dependency:check` regularly
+4. **Run HTTPS** in production - configure SSL/TLS
+5. **Disable H2 console** in production (`spring.h2.console.enabled=false`)
+6. **Use external database** - Don't rely on embedded H2 for production data
+7. **Implement logging** - Monitor authentication attempts and security events
+8. **Regular backups** - Backup your database regularly
+9. **Keep Java updated** - Use Java 21 LTS for latest security patches
+
+### CVE and Vulnerability Scanning
+
+Monitor dependencies for vulnerabilities:
+
+```bash
+# Check for known vulnerabilities
+mvn org.owasp:dependency-check-maven:check
+
+# Update dependencies safely
+mvn versions:display-dependency-updates
+```
+
 
 ## 🚦 Troubleshooting
 
